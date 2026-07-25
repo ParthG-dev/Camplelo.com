@@ -2,6 +2,8 @@ if(process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const express = require('express');
 const path = require('path');
@@ -16,18 +18,15 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const { MongoStore } = require("connect-mongo");
+const db_Url = process.env.DB_URL;
 
 
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-});
+mongoose.connect(db_Url);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -47,7 +46,20 @@ app.use(mongoSanitize());
 app.use(express.static(path.join(__dirname, 'public')))
 
 
+const store = MongoStore.create({
+  mongoUrl: db_Url,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: "thisshouldbeabettersecret!",
+  },
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
+
 const sessionConfig = {
+    store,
     name: 'idhar kya dekh raha',
     secret: 'thisshouldbeabettersecret!',
     resave: false,
@@ -111,7 +123,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    console.log(req.query)
+    // console.log(req.query)
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
