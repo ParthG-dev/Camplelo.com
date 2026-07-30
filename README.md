@@ -1,4 +1,4 @@
-# 🏕️ Camplelo (YelpCamp)
+<img width="1912" height="864" alt="image" src="https://github.com/user-attachments/assets/efaa4f3c-840e-4109-bd93-3134a1e3224e" /># 🏕️ Camplelo (YelpCamp)
 
 A full-stack campground listing and review platform inspired by Yelp, where users can discover, create, review, and manage campgrounds. The application features secure authentication, image uploads, interactive maps, and a responsive user interface.
 
@@ -187,7 +187,10 @@ The application is deployed on **Vercel** and can be accessed here:
 
 # 📸 Screenshots
 
-> Add screenshots of your application here.
+<img width="1912" height="864" alt="image" src="https://github.com/user-attachments/assets/5ade5258-29f2-4c9c-a6bd-1bd7514083af" />
+<img width="1897" height="866" alt="image" src="https://github.com/user-attachments/assets/1b884fdb-1cd3-4508-8a73-aae5f61a8062" />
+
+
 
 Suggested screenshots:
 
